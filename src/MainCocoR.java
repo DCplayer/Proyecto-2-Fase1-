@@ -1,3 +1,4 @@
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
 import java.io.BufferedReader;
@@ -17,6 +18,8 @@ public class MainCocoR {
         StringTokenizer tokens;
         String linea;
         ArrayList<String> contenido = new ArrayList<>();
+        LectordeArchivos lector = new LectordeArchivos();
+
 
         String letter = "a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I" +
                 "|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z";
@@ -30,19 +33,17 @@ public class MainCocoR {
         String charRegex = "\'" + letter + "|" + digit + "|" + butApostrophw +"\'";
 
         String CharRegex = "(" + charRegex  +")|(CHR(" + numberRegex + "))";
-        String BasicSetRegex = "(" + stringRegex + ")|(" + identRegex + ")|((" + CharRegex + ")|(" + CharRegex + ".."
-                + CharRegex + "))";
-        String SetRegex = "(" + BasicSetRegex + ")" + "((+|-)(" + BasicSetRegex + "))*";
+        String BasicSetRegex = "(" + stringRegex + ")|(" + identRegex + ")|((" + CharRegex + ")|(" + CharRegex + "--" + CharRegex + "))";
+        String SetRegex = "(" + BasicSetRegex + ")" + "((\\+|-)(" + BasicSetRegex + "))*";
         String SetDeclRegex = "(" + identRegex+ ")=" + "(" + SetRegex+ ")";
 
-        String KeywordDecl = "";
+        String KeywordDecl = "(" +identRegex + ")=(" +stringRegex +")";
 
 
         /*---------------------------------------------Creacion de Automatas----------------------------------------------------------*/
+        /*Automata ident*/
         Arbol arbolIdent = new Arbol();
-        ArrayList<NodosRamas> identificador = arbolIdent.CrearElAFDDirecto(identRegex);
-        HashSet<NodosRamas> ident = new HashSet<>();
-        ident.addAll(identificador);
+        ArrayList<NodosRamas> ident = arbolIdent.CrearElAFDDirecto(identRegex);
         int numeroParaElID = 0;
 
         for(NodosRamas nodoRama: ident){
@@ -50,10 +51,9 @@ public class MainCocoR {
             numeroParaElID = numeroParaElID + 1;
         }
 
+        /*Automata number*/
         Arbol arbolNumber = new Arbol();
-        ArrayList<NodosRamas> numero = arbolNumber.CrearElAFDDirecto(numberRegex);
-        HashSet<NodosRamas> number = new HashSet<>();
-        number.addAll(numero);
+        ArrayList<NodosRamas> number = arbolNumber.CrearElAFDDirecto(numberRegex);
         numeroParaElID = 0;
 
         for(NodosRamas nodoRama: number){
@@ -61,10 +61,9 @@ public class MainCocoR {
             numeroParaElID = numeroParaElID + 1;
         }
 
+        /*Automata string*/
         Arbol arbolString = new Arbol();
-        ArrayList<NodosRamas> palabra = arbolString.CrearElAFDDirecto(stringRegex);
-        HashSet<NodosRamas> string = new HashSet<>();
-        string.addAll(palabra);
+        ArrayList<NodosRamas> string = arbolString.CrearElAFDDirecto(stringRegex);
         numeroParaElID = 0;
 
         for(NodosRamas nodoRama: string){
@@ -72,17 +71,36 @@ public class MainCocoR {
             numeroParaElID = numeroParaElID + 1;
         }
 
-
-        Arbol arbolchar = new Arbol();
-        ArrayList<NodosRamas> caracteres = arbolchar.CrearElAFDDirecto(charRegex);
-        HashSet<NodosRamas> charr = new HashSet<>();
-        charr.addAll(caracteres);
+        /*Automata char*/
+        Arbol arbolChar = new Arbol();
+        ArrayList<NodosRamas> Char = arbolChar.CrearElAFDDirecto(charRegex);
         numeroParaElID = 0;
 
-        for(NodosRamas nodoRama: charr){
+        for(NodosRamas nodoRama: Char){
             nodoRama.setId(numeroParaElID);
             numeroParaElID = numeroParaElID + 1;
         }
+
+        /*Automata CHARACTERS*/
+        Arbol arbolCharacters = new Arbol();
+        ArrayList<NodosRamas> Characters = arbolCharacters.CrearElAFDDirecto(SetDeclRegex);
+        numeroParaElID = 0;
+
+        for(NodosRamas nodoRama: Characters){
+            nodoRama.setId(numeroParaElID);
+            numeroParaElID = numeroParaElID + 1;
+        }
+
+        /*Automata KEYWORDS*/
+        Arbol arbolKeywords = new Arbol();
+        ArrayList<NodosRamas> Keywords = arbolKeywords.CrearElAFDDirecto(KeywordDecl);
+        numeroParaElID = 0;
+
+        for(NodosRamas nodoRama: Keywords){
+            nodoRama.setId(numeroParaElID);
+            numeroParaElID = numeroParaElID + 1;
+        }
+
         /*---------------------------------------------CreacionDirecta--------------------------------------------------------------*/
 
 
@@ -91,27 +109,12 @@ public class MainCocoR {
         * estamos, digamos que se llama r, entonces tiene r.getConjunto.getContenido.equals(#) para ver si es el
         * ultimo*/
 
-
+        /*Aqui Viene toda la historia de ifs, whiles y condicionales que ayudaran a verificar la aceptacion de COCOR*/
+        
 
 
 
     }
-
-    public static String Ramas(NodosRamas noEsR){
-        String casual  ="{";
-        for (Rama i: noEsR.getConjunto()){
-            casual = casual + ""  + i.getID() + ", ";
-        }
-        casual = casual + "}";
-        return  casual;
-    }
-
-
-
-
-
-
-
 
     }
 
