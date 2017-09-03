@@ -1,10 +1,8 @@
+import com.sun.corba.se.impl.ior.IdentifiableFactoryFinderBase;
 import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
@@ -14,7 +12,6 @@ import java.util.StringTokenizer;
  */
 public class MainCocoR {
     public static void main (String args[]){
-        BufferedReader br;
         StringTokenizer tokens;
         String linea;
         ArrayList<String> contenido = new ArrayList<>();
@@ -38,6 +35,7 @@ public class MainCocoR {
         String SetDeclRegex = "(" + identRegex+ ")=" + "(" + SetRegex+ ")";
 
         String KeywordDecl = "(" +identRegex + ")=(" +stringRegex +")";
+
 
 
         /*---------------------------------------------Creacion de Automatas----------------------------------------------------------*/
@@ -101,6 +99,7 @@ public class MainCocoR {
             numeroParaElID = numeroParaElID + 1;
         }
 
+
         /*---------------------------------------------CreacionDirecta--------------------------------------------------------------*/
 
 
@@ -110,7 +109,12 @@ public class MainCocoR {
         * ultimo*/
 
         /*Aqui Viene toda la historia de ifs, whiles y condicionales que ayudaran a verificar la aceptacion de COCOR*/
-        
+
+        ArrayList<String> lineas = lector.crearLector();
+
+
+        System.out.println(lineas);
+
 
 
 
