@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class LectordeArchivos {
-       
+
 
 
     public LectordeArchivos(){
@@ -55,23 +55,41 @@ public class LectordeArchivos {
     }
 
     public boolean chequearSintaxisInicial(ArrayList<String> lineas, ArrayList<NodosRamas> ident){
+        boolean resultado = true;
         if(lineas.size() == 0){
             System.out.println("Archivo Vacio");
-            return false;
+            resultado =  false;
         }
         StringTokenizer primeraLinea = new StringTokenizer(lineas.get(0));
         if(!primeraLinea.nextToken().equals("COMPILER")){
             System.out.println("Syntax error: COMPILER not found");
-            return false;
+            resultado =   false;
         }
         String identificador = primeraLinea.nextToken();
         if(!simularAFD(ident, identificador)){
             System.out.println("Syntax error: ident not viable ");
+            resultado =   false;
         }
 
 
+        StringTokenizer ultimaLinea = new StringTokenizer(lineas.get(lineas.size()-1));
+        if (!ultimaLinea.nextToken().equals("END")){
+            System.out.println("Syntax error: END not found");
+            resultado =   false;
+        }
+        String identificadorFinal = ultimaLinea.nextToken();
+        String identFinal = identificadorFinal.substring(0, identificadorFinal.length() - 2);
+        String dot = identificadorFinal.substring(identificadorFinal.length() - 2, identificadorFinal.length() - 1);
+        if(!identificador.equals(identFinal)){
+            System.out.println("Syntax error: identificator not found");
+            resultado =   false;
+        }
+        if(!dot.equals(".")){
+            System.out.println("Syntax error: notation not found");
+            resultado = false;
+        }
 
-
+        return resultado;
     }
 
 

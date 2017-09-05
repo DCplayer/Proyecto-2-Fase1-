@@ -111,6 +111,9 @@ public class MainCocoR {
         /*Aqui Viene toda la historia de ifs, whiles y condicionales que ayudaran a verificar la aceptacion de COCOR*/
 
         ArrayList<String> lineas = lector.crearLector();
+        if(!lector.chequearSintaxisInicial(lineas, ident)){
+            System.out.println("MalFuncionamiento en el programa");
+        }
 
 
         System.out.println(lineas);
