@@ -116,11 +116,6 @@ public class MainCocoR {
         }
 
 
-        System.out.println(lineas);
-
-
-
-
     }
 
     }

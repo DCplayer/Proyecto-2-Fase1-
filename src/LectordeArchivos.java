@@ -23,7 +23,12 @@ public class LectordeArchivos {
             String substri = s.substring(index, index+1);
             int numero = elNodo.getTransiciones().indexOf(substri);
             NodosRamas resul = elNodo.getArrivals().get(numero);
-            elNodo = resul;
+            for(NodosRamas i: listaDeAFD){
+                if(i.getConjunto().equals(resul.getConjunto())){
+                    elNodo = i;
+
+                }
+            }
             index = index + 1;
         }
         for(Rama rama: elNodo.getConjunto()){
@@ -67,7 +72,7 @@ public class LectordeArchivos {
         }
         String identificador = primeraLinea.nextToken();
         if(!simularAFD(ident, identificador)){
-            System.out.println("Syntax error: ident not viable ");
+            System.out.println("Syntax error: ident " + identificador +  " not viable ");
             resultado =   false;
         }
 
@@ -78,16 +83,17 @@ public class LectordeArchivos {
             resultado =   false;
         }
         String identificadorFinal = ultimaLinea.nextToken();
-        String identFinal = identificadorFinal.substring(0, identificadorFinal.length() - 2);
-        String dot = identificadorFinal.substring(identificadorFinal.length() - 2, identificadorFinal.length() - 1);
-        if(!identificador.equals(identFinal)){
-            System.out.println("Syntax error: identificator not found");
-            resultado =   false;
-        }
+        String identFinal = identificadorFinal.substring(0, identificadorFinal.length() - 1);
+        String dot = identificadorFinal.substring(identificadorFinal.length() - 1, identificadorFinal.length());
         if(!dot.equals(".")){
-            System.out.println("Syntax error: notation not found");
+            System.out.println("Syntax error: notation \".\" not found");
             resultado = false;
         }
+        else if(!identificador.equals(identFinal)){
+            System.out.println("Syntax error: identificator "+ identFinal+ " not found");
+            resultado =   false;
+        }
+
 
         return resultado;
     }
