@@ -1,0 +1,14 @@
+COMPILER Ejemplo
+
+CHARACTERS
+
+letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".
+digit = "0123456789".
+
+
+KEYWORDS
+
+if="if".
+while="while.
+
+END Ejemplo.
