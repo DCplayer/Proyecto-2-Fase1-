@@ -23,8 +23,8 @@ public class LectordeArchivos {
         String letter = "a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I" +
                 "|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z";
         String digit = "0|1|2|3|4|5|6|7|8|9";
-        String butQuote = "!|@|\\+|$|^|&|{|}|[|]|\'|>|<|;|:";
-        String butApostrophw = "!|@|\\+|$|^|&|{|}|[|]|\"|>|<|;|:";
+        String butQuote = "!|@|$|^|&|{|}|[|]|\'|>|<|;|:";
+        String butApostrophw = "!|@|$|^|&|{|}|[|]|\"|>|<|;|:";
 
         String identRegex = "(" + letter+ ")"+ "(" + letter + "|" + digit + ")*";
         String numberRegex = "(" + digit+ ")"  + "(" + digit+ ")" + "*";
@@ -214,6 +214,7 @@ public class LectordeArchivos {
 
     /*-------------------------------------------ChequearSintaxisDelArchivo--------------------------------------------*/
     public boolean chequearSintaxis(ArrayList<String> lineas){
+
         simularAFD(Characters, "a=\"ab\"");
         boolean resultado = true;
         /*Chequear en caso el documento esta vacio*/

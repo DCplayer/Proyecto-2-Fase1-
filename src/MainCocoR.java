@@ -36,11 +36,9 @@ public class MainCocoR {
         if(!lector.chequearSintaxis(lineas)){
             System.out.println("Malfunction of .txt, Found several Syntax errors");
         }
-
-
-        System.out.println(lineas);
-
-
+        else{
+            System.out.println("Archivo Sintacticamente Correcto");
+        }
     }
 
     }
